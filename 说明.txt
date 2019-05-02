@@ -1,0 +1,8 @@
+开发时:
+	1. 执行start-h2.bat, 来启动H2.
+	2. 运行web工程里的Application类.
+正式运行时:
+	1. 打包web.war , 放入bin目录里
+	2. 执行start.bat ,将启动H2 和 Web .
+
+      
