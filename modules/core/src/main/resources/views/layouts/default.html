@@ -1,0 +1,24 @@
+<%/* Copyright (c) 2013-Now http://jeesite.com All rights reserved. */
+/*
+ * 默认布局文件
+ * @param title 页面标题
+ * @param bodyClass body标签的class内容
+ * @param libs 要引用的js或css类库
+ */
+var themeName = @Global.getConfig('web.view.themeName', 'default');
+%>
+<% print('<'+'!DOC'+'TYPE html'+'>'); %>
+<% print('<'+'html'+'><'+'head'+'>'); %>
+<% include('/include/head.html', {title: text(title!)}){} %>
+<% include('/themes/'+themeName+'/include/header.html', {libs: libs!}){} %>
+<% var userCode=@UserUtils.getUser().getUserCode();  %>
+</head><body class="hold-transition ${bodyClass!}"  ${userCode==null?'style="height: 100%;"':''}>
+<% if (!@ListUtils.inString('layout', libs!)){ %>
+	<% if(userCode==null){ %>
+	<div class="wrapper" style="background-image: url(${ctxStatic}/adminlte/img/loginBg.jpg);background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;" >${layoutContent}</div>
+	<% }else{ %>
+	<div class="wrapper">${layoutContent}</div>
+	<% } %>
+<% }else{ %>${layoutContent}<% } %>
+<a id="scroll-up" href="#" class="btn btn-sm"><i class="fa fa-angle-double-up"></i></a>
+<% include('/themes/'+themeName+'/include/footer.html', {libs: libs!}){} %>
