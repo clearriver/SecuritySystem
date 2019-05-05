@@ -20,9 +20,9 @@ demoMode: false
 
 server:
 
-  port: 9001
+  port: 9002
   servlet:
-    context-path: /js
+    context-path: /ss
   tomcat:
     uri-encoding: UTF-8
     
@@ -48,7 +48,7 @@ jdbc:
   type: h2
   driver: org.h2.Driver
 #  url: jdbc:h2:tcp://localhost:3306/~/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=CREATE SCHEMA IF NOT EXISTS ssdb
-  url: jdbc:h2:tcp://localhost:3306/~/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb
+  url: jdbc:h2:tcp://localhost:3306/./ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb
   username: sa
   password: sa
 
