@@ -48,7 +48,8 @@ jdbc:
   type: h2
   driver: org.h2.Driver
 #  url: jdbc:h2:tcp://localhost:3306/~/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=CREATE SCHEMA IF NOT EXISTS ssdb
-  url: jdbc:h2:tcp://localhost:3306/./ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb
+#  url: jdbc:h2:tcp://localhost:3306/./ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb;
+  url: jdbc:h2:tcp://localhost:3306/E:\work\SecuritySystem\bin/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb;
   username: sa
   password: sa
 
@@ -149,7 +150,7 @@ spring:
   
   # 应用程序名称
   application:
-    name: jeesite-web
+    name: ss-web
     
   # 当前环境名称（注意：不可设置为 test 它是单元测试专用的名称）
   profiles:    

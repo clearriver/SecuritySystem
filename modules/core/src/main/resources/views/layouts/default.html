@@ -15,7 +15,7 @@ var themeName = @Global.getConfig('web.view.themeName', 'default');
 </head><body class="hold-transition ${bodyClass!}"  ${userCode==null?'style="height: 100%;"':''}>
 <% if (!@ListUtils.inString('layout', libs!)){ %>
 	<% if(userCode==null){ %>
-	<div class="wrapper" style="background-image: url(${ctxStatic}/adminlte/img/loginBg.jpg);background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;" >${layoutContent}</div>
+	<div class="wrapper" style="background-image: url(${ctxStatic}/adminlte/img/loginbgcolor.jpg);background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;" >${layoutContent}</div>
 	<% }else{ %>
 	<div class="wrapper">${layoutContent}</div>
 	<% } %>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.biz.dao.BizPoliceDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="BizPolice">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="queryMap" resultType="java.util.HashMap" parameterType="hashmap">
+		SELECT p.police_code policeCode,p.police_name policeName,p.police_type policeType,p.office office,p.police_state policeState,p.phone phone,p.remark remark
+		FROM ${_prefix}biz_police p
+		<where>
+			1=1 ${andsql} 
+		</where>
+		ORDER BY p.police_code ${maxnum} 
+	</select>
+</mapper>

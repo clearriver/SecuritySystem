@@ -5,14 +5,15 @@
 <link rel="stylesheet" href="${ctxStatic}/modules/sys/sysLogin.css?${_version}">
 <div class="login-box">
 	<div class="login-logo">
+	<!-- 	 
 		<a href="${ctx}/login"><b style="color:white">${@Global.getConfig('productName')}</b>
 			<small>${@Global.getConfig('productVersion')}</small>
 			</a>
-	<!-- 	 
+	-->
 		<a href="${ctx}/login">
-		<img alt="${@Global.getConfig('productName')}" title="${@Global.getConfig('productName')}" src="${ctxStatic}/adminlte/img/logo-1.png">
+		<img alt="${@Global.getConfig('productName')}" title="${@Global.getConfig('productName')}" src="${ctxStatic}/adminlte/img/jlogo.png">
 		</a>	
-	 -->
+	 
 	</div>
 	<div class="login-box-body">
 		<#form:form id="loginForm" model="${user!}" action="${ctx}/login" method="post">
