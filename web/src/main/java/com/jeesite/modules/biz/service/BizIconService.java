@@ -19,83 +19,52 @@ import com.jeesite.common.service.CrudService;
 import com.jeesite.common.service.ServiceException;
 import com.jeesite.common.utils.excel.ExcelImport;
 import com.jeesite.common.validator.ValidatorUtils;
-import com.jeesite.modules.biz.dao.BizPoliceDao;
-import com.jeesite.modules.biz.entity.BizPolice;
+import com.jeesite.modules.biz.dao.BizIconDao;
+import com.jeesite.modules.biz.entity.BizIcon;
 import com.jeesite.modules.file.utils.FileUploadUtils;
 
 /**
- * 警员表Service
+ * 图标表Service
  * @author 长江
  * @version 2019-01-12
  */
 @Service
 @Transactional(readOnly=true)
-public class BizPoliceService extends CrudService<BizPoliceDao, BizPolice> {
+public class BizIconService extends CrudService<BizIconDao, BizIcon> {
 	/**
 	 * 获取单条数据
-	 * @param BizPolice
+	 * @param BizIcon
 	 * @return
 	 */
 	@Override
-	public BizPolice get(String bizPolice) {
-		BizPolice bp=super.get(bizPolice);
-//		if(bp!=null) {
-//			String andsql=MessageFormat.format("and r.place_code=''{0}'' ",bp.getPoliceCode());
-//			HashMap<String,Object> param=new HashMap<String,Object>();
-//			param.put("andsql",andsql);
-//			List<BizRtspUrl> bizRtspUrlList=this.dao.queryRtspUrl(param);
-//			if(bizRtspUrlList!=null) {
-//				bp.setBizRtspUrlList(bizRtspUrlList);
-//			}
-//		}
-		return bp;
+	public BizIcon get(String bizIcon) {
+		return super.get(bizIcon);
 	}	
-	public BizPolice getBizPolice(String bizPolice) {
-		BizPolice bp=super.get(bizPolice);
-//		if(bp!=null) {
-//			String andsql=MessageFormat.format("and r.place_code=''{0}'' ",bp.getPoliceCode());
-//			HashMap<String,Object> param=new HashMap<String,Object>();
-//			param.put("andsql",andsql);
-//			List<BizRtspUrl> bizRtspUrlList=this.dao.queryRtspUrl(param);
-//			if(bizRtspUrlList!=null) {
-//				bp.setBizRtspUrlList(bizRtspUrlList);
-//			}
-//		}
-		return bp;
+	public BizIcon getBizIcon(String bizIcon) {
+		return super.get(bizIcon);
 	}
 	/**
 	 * 获取单条数据
-	 * @param bizPolice
+	 * @param bizIcon
 	 * @return
 	 */
 	@Override
-	public BizPolice get(BizPolice bizPolice) {
-		BizPolice bp=super.get(bizPolice);
-//		if(bp!=null) {
-//			String andsql=MessageFormat.format("and r.place_code=''{0}'' ",bp.getPoliceCode());
-//			HashMap<String,Object> param=new HashMap<String,Object>();
-//			param.put("andsql",andsql);
-//			List<BizRtspUrl> bizRtspUrlList=this.dao.queryRtspUrl(param);
-//			if(bizRtspUrlList!=null) {
-//				bp.setBizRtspUrlList(bizRtspUrlList);
-//			}
-//		}
-		return bp;
+	public BizIcon get(BizIcon bizIcon) {
+		return super.get(bizIcon);
 	}
-	
 	/**
 	 * 查询分页数据
-	 * @param bizPolice 查询条件
-	 * @param bizPolice.page 分页对象
+	 * @param bizIcon 查询条件
+	 * @param bizIcon.page 分页对象
 	 * @return
 	 */
 	@Override
-	public Page<BizPolice> findPage(BizPolice bizPolice) {
-		return super.findPage(bizPolice);
+	public Page<BizIcon> findPage(BizIcon bizIcon) {
+		return super.findPage(bizIcon);
 	}
 	/**
 	 * 获取单条数据
-	 * @param bizPolice
+	 * @param bizIcon
 	 * @return
 	 */
 	public List<Map<String, Object>> queryMap(Map<String,Object> param) {
@@ -103,41 +72,41 @@ public class BizPoliceService extends CrudService<BizPoliceDao, BizPolice> {
 	}
 	/**
 	 * 保存数据（插入或更新）
-	 * @param bizPolice
+	 * @param bizIcon
 	 */
 	@Override
 	@Transactional(readOnly=false)
-	public void save(BizPolice bizPolice) {
-		super.save(bizPolice);
+	public void save(BizIcon bizIcon) {
+		super.save(bizIcon);
 		// 保存上传图片
-		FileUploadUtils.saveFileUpload(bizPolice.getId(), "bizPolice_image");
+		FileUploadUtils.saveFileUpload(bizIcon.getId(), "bizIcon_image");
 		// 保存上传附件
-		FileUploadUtils.saveFileUpload(bizPolice.getId(), "bizPolice_file");
+		FileUploadUtils.saveFileUpload(bizIcon.getId(), "bizIcon_file");
 	}
 	
 	/**
 	 * 更新状态
-	 * @param bizPolice
+	 * @param bizIcon
 	 */
 	@Override
 	@Transactional(readOnly=false)
-	public void updateStatus(BizPolice bizPolice) {
-		super.updateStatus(bizPolice);
+	public void updateStatus(BizIcon bizIcon) {
+		super.updateStatus(bizIcon);
 	}
 	
 	/**
 	 * 删除数据
-	 * @param bizPolice
+	 * @param bizIcon
 	 */
 	@Override
 	@Transactional(readOnly=false)
-	public void delete(BizPolice bizPolice) {
-		super.delete(bizPolice);
+	public void delete(BizIcon bizIcon) {
+		super.delete(bizIcon);
 	}
 
 	/**
-	 * 导入警员数据
-	 * @param file 导入的警员数据文件
+	 * 导入图标数据
+	 * @param file 导入的图标数据文件
 	 * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
 	 */
 	@Transactional(readOnly=false)
@@ -149,30 +118,30 @@ public class BizPoliceService extends CrudService<BizPoliceDao, BizPolice> {
 		StringBuilder successMsg = new StringBuilder();
 		StringBuilder failureMsg = new StringBuilder();
 		try(ExcelImport ei = new ExcelImport(file, 2, 0)){
-			List<BizPolice> list = ei.getDataList(BizPolice.class);
-			for (BizPolice bizPolice : list) {
+			List<BizIcon> list = ei.getDataList(BizIcon.class);
+			for (BizIcon bizIcon : list) {
 				try{
 					// 验证数据文件
-					ValidatorUtils.validateWithException(bizPolice);
+					ValidatorUtils.validateWithException(bizIcon);
 					// 验证是否存在这个用户
-					BizPolice b=this.get(bizPolice.getPoliceCode());
+					BizIcon b=this.get(bizIcon.getIconCode());
 					if(b==null) {
-						bizPolice.setIsNewRecord(true);
-						this.save(bizPolice);
+						bizIcon.setIsNewRecord(true);
+						this.save(bizIcon);
 						successNum++;
-						successMsg.append("<br/>" + successNum + "、账号 " + bizPolice.getPoliceCode() + " 导入成功");
+						successMsg.append("<br/>" + successNum + "、账号 " + bizIcon.getIconCode() + " 导入成功");
 					}else if (isUpdateSupport){
 //						ei.getDataRowNum()
 						this.save(b);
 						successNum++;
-						successMsg.append("<br/>" + successNum + "、账号 " + bizPolice.getPoliceCode() + " 更新成功");
+						successMsg.append("<br/>" + successNum + "、账号 " + bizIcon.getIconCode() + " 更新成功");
 					} else {
 						failureNum++;
-						failureMsg.append("<br/>" + failureNum + "、账号 " + bizPolice.getPoliceCode()+ " 已存在");
+						failureMsg.append("<br/>" + failureNum + "、账号 " + bizIcon.getIconCode()+ " 已存在");
 					}
 				} catch (Exception e) {
 					failureNum++;
-					String msg = "<br/>" + failureNum + "、账号 " + bizPolice.getPoliceCode()+ " 导入失败：";
+					String msg = "<br/>" + failureNum + "、账号 " + bizIcon.getIconCode()+ " 导入失败：";
 					if (e instanceof ConstraintViolationException){
 						List<String> messageList = ValidatorUtils.extractPropertyAndMessageAsList((ConstraintViolationException)e, ": ");
 						for (String message : messageList) {

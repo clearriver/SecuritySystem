@@ -37,7 +37,7 @@ import com.jeesite.modules.sys.utils.ConfigUtils;
 import com.jeesite.modules.sys.utils.UserUtils;
 
 /**
- * 场所表Controller
+ * 警员表Controller
  * @author 长江
  * @version 2019-01-12
  */

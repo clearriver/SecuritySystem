@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.biz.dao.BizIconDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="BizIcon">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="queryMap" resultType="java.util.HashMap" parameterType="hashmap">
+		SELECT p.icon_code iconCode,p.icon_name iconName,p.file_name fileName,p.file_path filePath,p.remark remark
+		FROM ${_prefix}biz_icon p
+		<where>
+			1=1 ${andsql} 
+		</where>
+		ORDER BY p.icon_code ${maxnum} 
+	</select>
+</mapper>

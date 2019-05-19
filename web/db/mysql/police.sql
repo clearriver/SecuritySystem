@@ -1,6 +1,6 @@
 SET SESSION FOREIGN_KEY_CHECKS=0;
 
-DROP TABLE IF EXISTS js_biz_place;
+DROP TABLE IF EXISTS js_biz_police;
 
 -- 警员表
 CREATE TABLE js_biz_police
@@ -19,3 +19,17 @@ CREATE TABLE js_biz_police
 /* Create Indexes */
 CREATE INDEX idx_biz_police_pn ON js_biz_police (police_name ASC);
 
+DROP TABLE IF EXISTS js_biz_icon;
+-- 图标表
+CREATE TABLE js_biz_icon
+(
+	icon_code varchar(100) NOT NULL COMMENT '图标组号',
+	icon_name varchar(200) NOT NULL COMMENT '图标名称',
+	icon_type varchar(100) NOT NULL COMMENT '图标类型',
+	remark varchar(300) COMMENT '备注',
+	PRIMARY KEY (icon_code)
+) COMMENT = '警员表';
+
+
+/* Create Indexes */
+CREATE INDEX idx_biz_icon_pn ON js_biz_icon (icon_name ASC);
