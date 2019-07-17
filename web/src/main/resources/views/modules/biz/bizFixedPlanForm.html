@@ -1,0 +1,158 @@
+<% layout('/layouts/default.html', {title: '固定执勤部署管理', libs: ['validate','ueditor','fileupload']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text(bizFixedPlan.isNewRecord ? '新增固定执勤部署' : '编辑固定执勤部署')}
+			</div>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div>
+		</div>
+		<#form:form id="inputForm" model="${bizFixedPlan}" action="${ctx}/biz/bizFixedPlan/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">${text('基本信息')}</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required ">*</span> ${text('活动名称')}：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:hidden path="planCode"/>
+								<#form:treeselect title="${text('活动名称')}"
+									path="activity" labelPath="activity.activityName" 
+									url="${ctx}/biz/bizActivity/treeData?level=1" class="required" allowClear="true"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4">${text('负责单位')}：</label>
+							<div class="col-sm-8">
+								<#form:treeselect title="${text('负责单位')}"
+									path="office" labelPath="office.officeName"  
+									url="${ctx}/sys/office/treeData?level=2" class="required" allowClear="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('执勤人')}：</label>
+							<div class="col-sm-8">
+								<#form:treeselect  path="person" labelPath="person.policeName"  
+									url="${ctx}/biz/bizPolice/treeData" allowClear="false" 
+									checkbox="false" />
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('固定执勤类型')}：</label>
+							<div class="col-sm-8">
+								<#form:select path="planType" dictType="sys_biz_plan_type" blankOption="true" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('执勤位置')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="position" maxlength="300" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('地理坐标')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="coordinates" maxlength="100" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('警员图标')}：</label>
+							<div class="col-sm-8">
+								<#form:treeselect  path="icon" labelPath="icon.fileName"  boxWidth="400" boxHeight="600"
+									url="${ctx}/biz/bizIcon/treeData?bizType=bizIcon_image" allowClear="false" 
+									checkbox="false" />
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">${text('负责人')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="chief" maxlength="300" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2" title=""> ${text('工作要点')}：</label>
+							<div class="col-sm-10">
+								<#form:ueditor path="coreTask" maxlength="500" height="100" class="form-control" simpleToolbars="false" readonly="false" outline="false"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2" title="">${text('备注')}：</label>
+							<div class="col-sm-10">
+								<#form:ueditor path="remark" maxlength="500" height="100" class="form-control" simpleToolbars="false" readonly="false" outline="false"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('biz:bizFixedPlan:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> ${text('保 存')}</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('关 闭')}</button>
+					</div>
+				</div>
+			</div>
+		</#form:form>
+	</div>
+	<iframe id="mapIframe" src="" width="100%" height="500px">
+	</iframe>
+</div>
+<% } %>
+<script>
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+$(document.body).ready(function(){
+// 	mapIframe.src="http://znsp.nxwh.org:9007/demo/g.html?"+$('#coordinates').val();
+// 	console.log("http://znsp.nxwh.org:9007/demo/g.html?"+$('#coordinates').val());
+	mapIframe.src="${@Global.getConfig('mapurl')}?"+$('#coordinates').val();
+	console.log("${@Global.getConfig('mapurl')}?"+$('#coordinates').val());
+});
+function setPosition(p){
+	if(p){
+		$('#coordinates').val(p);
+	}
+}
+</script>

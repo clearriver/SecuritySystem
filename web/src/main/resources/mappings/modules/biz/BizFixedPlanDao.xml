@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.biz.dao.BizFixedPlanDao">
+	
+	<!-- 查询数据
+	<select id="findList" resultType="BizPolice">
+		SELECT ${sqlMap.column.toSql()}
+		FROM ${sqlMap.table.toSql()}
+		<where>
+			${sqlMap.where.toSql()}
+		</where>
+		ORDER BY ${sqlMap.order.toSql()}
+	</select> -->
+	<select id="queryMap" resultType="java.util.HashMap" parameterType="hashmap">
+		SELECT p.plan_code planCode,p.activity activityCode,p.office officeCode,o.office_name officeName,
+		p.person policeCode,bp.police_name policeName,p.position position,p.coordinates coordinates,p.core_task coreTask,
+		p.plan_type planType,p.icon iconId,p.person policeCode,bp.police_name policeName,p.remark remark,
+		fu.file_id fileId,fu.file_name fileName,fe.file_path filePath,fe.file_extension fileExtension 
+		FROM ${_prefix}biz_fixed_plan p left join ${_prefix}sys_office o on p.office=o.office_code 
+		left join ${_prefix}biz_police bp on p.person=bp.police_code 
+		left join ${_prefix}sys_file_upload fu on p.icon=fu.id 
+		left join ${_prefix}sys_file_entity fe on fu.file_id=fe.file_id 
+		<where>
+			1=1 ${andsql} 
+		</where>
+		ORDER BY p.plan_code ${maxnum} 
+	</select>
+</mapper>

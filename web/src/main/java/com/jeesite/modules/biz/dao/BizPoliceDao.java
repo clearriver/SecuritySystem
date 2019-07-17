@@ -15,7 +15,7 @@ import com.jeesite.modules.biz.entity.BizPolice;
  * @author 长江
  * @version 2019-01-12
  */
-@MyBatisDao
+@MyBatisDao("BizPoliceDao")
 public interface BizPoliceDao extends CrudDao<BizPolice> {
 	public List<Map<String, Object>> queryMap(Map<String,Object> param);
 }

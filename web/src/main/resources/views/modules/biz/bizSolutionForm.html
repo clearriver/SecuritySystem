@@ -1,0 +1,291 @@
+<% layout('/layouts/default.html', {title: '安保警力部署管理', libs: ['validate','ueditor','fileupload']}){ %>
+<script src="${ctxStatic}/common/bootstrap-colorpicker.js?${_version}"></script>
+<link href="${ctxStatic}/common/bootstrap-colorpicker.css?${_version}" rel="stylesheet">
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header with-border">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text(bizSolution.isNewRecord ? '新增安保警力部署' : '编辑安保警力部署')}
+			</div>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			</div>
+		</div>
+		<#form:form id="inputForm" model="${bizSolution}" action="${ctx}/biz/bizSolution/save" method="post" class="form-horizontal">
+			<div class="box-body">
+				<div class="form-unit">${text('基本信息')}</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required ">*</span> ${text('活动名称')}：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:hidden path="solutionCode"/>
+								<#form:treeselect title="${text('活动名称')}"
+									path="activity" labelPath="activity.activityName" 
+									url="${ctx}/biz/bizActivity/treeData?level=1" class="required" allowClear="true"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4">${text('负责单位')}：</label>
+							<div class="col-sm-8">
+								<#form:treeselect title="${text('负责单位')}"
+									path="office" labelPath="office.officeName"  
+									url="${ctx}/sys/office/treeData?level=2" class="required" allowClear="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+							<span class="required ">*</span>  ${text('巡逻路段')}：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:radio path="side" dictType="sys_biz_side_type" class="form-control required" />
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">${text('负责人')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="chief" maxlength="300" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('巡逻路段起点')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="startPosition" maxlength="300" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('起点坐标')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="startCoordinates" onclick="show(this)" maxlength="300" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('巡逻路段终点')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="endPosition" maxlength="300" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('终点坐标')}：</label>
+							<div class="col-sm-8">
+								<#form:input path="endCoordinates"  onclick="show(this)" maxlength="300" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('巡逻类型')}：</label>
+							<div class="col-sm-8">
+								<#form:select path="dutyType" dictType="sys_biz_duty_type" blankOption="false" class="form-control"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">${text('距离')}：</label>
+							<div class="col-sm-8">
+								<span id="distance" class="form-control" style="color:red;border:0;"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" id="personListDiv">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2">${text('警员列表')}：</label>
+							<div class="col-sm-10">
+								<#form:treeselect  path="personCodes" labelPath="personNames"  
+									url="${ctx}/biz/bizPolice/treeData" allowClear="false" 
+									checkbox="true" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" id="carDiv">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('车辆')}：</label>
+							<div class="col-sm-8">
+								<#form:treeselect  path="icon" labelPath="icon.fileName"  boxWidth="400" boxHeight="600"
+									url="${ctx}/biz/bizIcon/treeData?bizType=bizIcon_image" allowClear="false" 
+									checkbox="false" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title=""> ${text('路段颜色')}：</label>
+							<div class="col-sm-8">
+							<div id="lineColorDiv" class="input-group colorpicker-component colorpicker-element">
+								<#form:input path="lineColor" maxlength="300" class="form-control input-lg"/>
+							  	<span class="input-group-addon"><i style="background-color: rgb(201, 65, 78);"></i></span>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2" title=""> ${text('工作要点')}：</label>
+							<div class="col-sm-10">
+								<#form:ueditor path="coreTask" maxlength="500" height="100" class="form-control" simpleToolbars="false" readonly="false" outline="false"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label class="control-label col-sm-2" title="">${text('备注')}：</label>
+							<div class="col-sm-10">
+								<#form:ueditor path="remark" maxlength="500" height="100" class="form-control" simpleToolbars="false" readonly="false" outline="false"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<div class="row">
+					<div class="col-sm-offset-2 col-sm-10">
+						<% if (hasPermi('biz:bizSolution:edit')){ %>
+							<button type="submit" class="btn btn-sm btn-primary" id="btnSubmit"><i class="fa fa-check"></i> ${text('保 存')}</button>&nbsp;
+						<% } %>
+						<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('关 闭')}</button>
+					</div>
+				</div>
+			</div>
+		</#form:form>
+	</div>
+	<div id="mapIframeDiv" style="display:none;opacity:1.0;filter:alpha(opacity=100);position:absolute;top:0;left:0;z-index:999;background: lightgray;width:100%;height:100%;">
+		<div style="padding-left:0;padding-top:0;width:99.5%;height:96%;text-align: center;">
+		<button type="button" class="btn btn-sm btn-default" onclick="hide();" style="background-color: #444ae4;color: white;">${text('选好了')}</button>
+		<button type="button" class="btn btn-sm btn-default" onclick="hide();" style="background-color: #444ae4;color: white;">${text('关闭')}</button>
+		<iframe id="mapIframe" src="" width="100%" height="100%" style="z-index:1000;">
+		</iframe>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+$("#inputForm").validate({
+	submitHandler: function(form){
+		js.ajaxSubmitForm($(form), function(data){
+			js.showMessage(data.message);
+			if(data.result == Global.TRUE){
+				js.closeCurrentTabPage(function(contentWindow){
+					contentWindow.page();
+				});
+			}
+		}, "json");
+    }
+});
+var curObj=null;
+$(document.body).ready(function(){
+// 	mapIframe.src="http://znsp.nxwh.org:9007/demo/g.html?"+$('#startCoordinates').val();
+// 	console.log("http://znsp.nxwh.org:9007/demo/g.html?"+$('#startCoordinates').val());
+	mapIframe.src="${@Global.getConfig('mapurl')}?"+$('#startCoordinates').val();
+	console.log("${@Global.getConfig('mapurl')}?"+$('#startCoordinates').val());
+	calDistance();
+	
+	dutyTypeChange();
+	$("#dutyType").change(function(){
+		dutyTypeChange();
+	});
+});
+$(function () {
+    $('#lineColorDiv').colorpicker();
+});
+
+function dutyTypeChange(){
+	if($("#dutyType").val()==1){
+		$("#personListDiv").show();
+		$("#carDiv").hide();
+	}else{
+		$("#personListDiv").hide();
+		$("#carDiv").show();
+	}
+}
+function hide(){
+	$("#mapIframeDiv").hide();
+}
+function show(obj){
+	$("#mapIframeDiv").show();
+	curObj=obj;
+// 	mapIframe.src="http://znsp.nxwh.org:9007/demo/g.html?"+$(obj).val();
+	mapIframe.src="${@Global.getConfig('mapurl')}?"+$(obj).val();
+}
+function setPosition(p){
+	if(p){
+		$(curObj).val(p);
+		calDistance();
+	}
+}
+function calDistance(){
+	var start=$("#startCoordinates").val();
+	var end=$("#endCoordinates").val();
+	if(!!start&&!!end){
+		var s=start.split(",");
+		var e=end.split(",");
+		var d=getFlatternDistance(s[0]-0,s[1]-0,e[0]-0,e[1]-0);console.log(" distance="+d);
+		$("#distance").html((d/1000).toFixed(3)+"千米");
+	}
+}
+var EARTH_RADIUS = 6378137.0;    //单位M
+var PI = Math.PI;
+function getRad(d){
+    return d*PI/180.0;
+}
+function getFlatternDistance(lat1,lng1,lat2,lng2){
+    var f = getRad((lat1 -0+ lat2)/2);
+    var g = getRad((lat1 - lat2)/2);
+    var l = getRad((lng1 - lng2)/2);
+    
+    var sg = Math.sin(g);
+    var sl = Math.sin(l);
+    var sf = Math.sin(f);
+    
+    var s,c,w,r,d,h1,h2;
+    var a = EARTH_RADIUS;
+    var fl = 1/298.257;
+    
+    sg = sg*sg;
+    sl = sl*sl;
+    sf = sf*sf;
+    
+    s = sg*(1-sl) + (1-sf)*sl;
+    c = (1-sg)*(1-sl) + sf*sl;
+    
+    w = Math.atan(Math.sqrt(s/c));
+    r = Math.sqrt(s*c)/w;
+    d = 2*w*a;
+    h1 = (3*r -1)/2/c;
+    h2 = (3*r +1)/2/s;
+    
+    return d*(1 + fl*(h1*sf*(1-sg) - h2*(1-sf)*sg));
+}
+</script>

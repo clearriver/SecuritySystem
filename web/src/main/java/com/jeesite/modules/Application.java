@@ -49,6 +49,7 @@ public class Application extends SpringBootServletInitializer {
 		});
 		if (!devMode) {
 			la.add("--spring.datasource.url=jdbc:h2:tcp://localhost:3306/"+home+"/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb");
+			la.add("--jdbc.url=jdbc:h2:tcp://localhost:3306/"+home+"/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb");
 		}
 		args = la.toArray(new String[la.size()]);
 		la.forEach(s -> System.out.println(s));

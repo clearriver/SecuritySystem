@@ -34,7 +34,7 @@ import com.jeesite.modules.sys.entity.Office;
 @Table(name="${_prefix}biz_icon", alias="a", columns={
 		@Column(name="icon_code", attrName="iconCode", label="图标组号", isPK=true),
 		@Column(name="icon_name", attrName="iconName", label="图标名称", queryType=QueryType.LIKE),
-		@Column(name="icon_type", attrName="iconType", label="图标类型", queryType=QueryType.LIKE),
+		@Column(name="icon_type", attrName="iconType", label="图标类型"),
 		@Column(name="remark", attrName="remark", label="备注")
 	}, orderBy="a.icon_code DESC"
 )
@@ -62,7 +62,7 @@ public class BizIcon extends DataEntity<BizIcon> {
 		super(id);
 	}
 	
-	@NotBlank(message="图标组号")
+//	@NotBlank(message="图标组号")
 	@Length(min=0, max=100, message="图标组号长度不能超过 100 个字符")
 	public String getIconCode() {
 		return iconCode;

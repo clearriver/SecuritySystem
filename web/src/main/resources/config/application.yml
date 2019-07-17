@@ -4,15 +4,23 @@
 #======================================#
 
 # 产品或项目名称、软件开发公司名称
-productName: 大型活动安保勤务可视化管理系统
+productName: 金凤区重大活动可视化管理系统
 companyName: ThinkGem
 
 # 产品版本、版权年份
-productVersion: V4.1
-copyrightYear: 2018
+#productVersion: V4.1
+productVersion: V1.0
+copyrightYear: 2019
 
 #是否演示模式
 demoMode: false
+
+#mapurl: http://znsp.nxwh.org:9007/demo/g.html
+#mapurl: http://znsp.nxwh.org:9007/demo/h.html
+mapurl: http://localhost:9002/ss/web/demo/h.html
+
+#frontendurl: http://znsp.nxwh.org:9007
+frontendurl: http://localhost:9002/ss/web/index.html
 
 #======================================#
 #========== Server settings ===========#
@@ -48,8 +56,8 @@ jdbc:
   type: h2
   driver: org.h2.Driver
 #  url: jdbc:h2:tcp://localhost:3306/~/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=CREATE SCHEMA IF NOT EXISTS ssdb
-  url: jdbc:h2:tcp://localhost:3306/./ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb;
-#  url: jdbc:h2:tcp://localhost:3306/E:\work\SecuritySystem\bin/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb;
+#  url: jdbc:h2:tcp://localhost:3306/./ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb;
+  url: jdbc:h2:tcp://localhost:3306/E:\work\SecuritySystem\bin/ssdb;MODE=MYSQL;DATABASE_TO_UPPER=false;INIT=SET SCHEMA ssdb;
   username: sa
   password: sa
 
@@ -192,6 +200,7 @@ logging:
 
 # 管理基础路径
 #adminPath: /a
+#adminPath: /a/index#/ss/a/biz/bizActivity/list/biz/bizActivity/list
 
 # 前端基础路径
 #frontPath: /f

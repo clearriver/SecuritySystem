@@ -15,7 +15,7 @@ import com.jeesite.modules.biz.entity.BizIcon;
  * @author 长江
  * @version 2019-01-12
  */
-@MyBatisDao
+@MyBatisDao("BizIconDao")
 public interface BizIconDao extends CrudDao<BizIcon> {
 	public List<Map<String, Object>> queryMap(Map<String,Object> param);
 }

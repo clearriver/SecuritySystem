@@ -27,7 +27,7 @@ import com.jeesite.modules.sys.entity.Area;
 import com.jeesite.modules.sys.entity.Office;
 
 /**
- * 场所表Entity
+ * 警员表Entity
  * @author 长江
  * @version 2019-01-12
  */

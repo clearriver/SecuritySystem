@@ -4,12 +4,12 @@
 package com.jeesite.modules.biz.web;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jeesite.common.collect.ListUtils;
+import com.jeesite.common.collect.MapUtils;
 import com.jeesite.common.config.Global;
 import com.jeesite.common.entity.Page;
 import com.jeesite.common.lang.DateUtils;
@@ -29,12 +30,8 @@ import com.jeesite.common.utils.excel.annotation.ExcelField.Type;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.biz.entity.BizPolice;
 import com.jeesite.modules.biz.service.BizPoliceService;
-import com.jeesite.modules.sys.entity.Config;
-import com.jeesite.modules.sys.entity.EmpUser;
-import com.jeesite.modules.sys.entity.User;
+import com.jeesite.modules.sys.entity.Office;
 import com.jeesite.modules.sys.service.ConfigService;
-import com.jeesite.modules.sys.utils.ConfigUtils;
-import com.jeesite.modules.sys.utils.UserUtils;
 
 /**
  * 警员表Controller
@@ -182,5 +179,26 @@ public class BizPoliceController extends BaseController {
 			ee.setDataList(list).write(response, fileName);
 		}
 	}
-
+	@RequiresPermissions("user")
+	@RequestMapping(value = "treeData")
+	@ResponseBody
+	public List<Map<String, Object>> treeData( Boolean isAll,String policeCode, String isShowCode, String ctrlPermi) {
+		List<Map<String, Object>> mapList = ListUtils.newArrayList();
+		BizPolice where = new BizPolice();
+		where.setStatus(Office.STATUS_NORMAL);
+		where.setPoliceCode(policeCode);
+		if (!(isAll != null && isAll)){
+			bizPoliceService.addDataScopeFilter(where, ctrlPermi);
+		}
+		List<BizPolice> list = bizPoliceService.findList(where);
+		for (int i = 0; i < list.size(); i++) {
+			BizPolice e = list.get(i);
+			Map<String, Object> map = MapUtils.newHashMap();
+			map.put("id", e.getPoliceCode());
+			map.put("pId", "0");
+			map.put("name",e.getPoliceName());
+			mapList.add(map);
+		}
+		return mapList;
+	}
 }

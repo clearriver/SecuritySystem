@@ -1,8 +1,10 @@
 <% layout('/layouts/default.html', {title: '', bodyClass: ''}){ %>
 <!-- <link rel="stylesheet" href="${ctxStatic}/modules/sys/sysDesktop.css?${_version}"> -->
 <div class="content pb0">
+	<div  class="row"  style="height:500px;width:100%;background:url(${ctxStatic}/img/top.jpg)">
+	</div>
 	<!-- Info boxes -->
-	<div class="row">
+	<div class="row hide">
 		<div class="col-md-3 col-sm-6 col-xs-12">
 			<div class="info-box">
 				<span class="info-box-icon bg-aqua"><i class="fa fa-cog"></i></span>
@@ -46,7 +48,7 @@
 		</div>
 	</div>
 	<!-- Chart boxes -->
-	<div class="row">
+	<div class="row hide">
 		<div class="col-md-12">
 			<div class="box box-widget">
 				<div class="box-header with-border">
@@ -224,7 +226,7 @@
  -->
 <footer class="main-footer m0">
 	<div class="pull-right hidden-xs">当前版本： ${@Global.getConfig('productVersion')}</div>
-	&copy; ${@DateUtils.getYear()} ${@Global.getConfig('productName')}
+	&copy; ${@Global.getConfig('productName')}
 </footer>
 <% } %>
 <script>

@@ -3,8 +3,6 @@
  */
 package com.jeesite.modules.biz.service;
 
-import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -129,19 +127,19 @@ public class BizIconService extends CrudService<BizIconDao, BizIcon> {
 						bizIcon.setIsNewRecord(true);
 						this.save(bizIcon);
 						successNum++;
-						successMsg.append("<br/>" + successNum + "、账号 " + bizIcon.getIconCode() + " 导入成功");
+						successMsg.append("<br/>" + successNum + "、图标 " + bizIcon.getIconCode() + " 导入成功");
 					}else if (isUpdateSupport){
 //						ei.getDataRowNum()
 						this.save(b);
 						successNum++;
-						successMsg.append("<br/>" + successNum + "、账号 " + bizIcon.getIconCode() + " 更新成功");
+						successMsg.append("<br/>" + successNum + "、图标 " + bizIcon.getIconCode() + " 更新成功");
 					} else {
 						failureNum++;
-						failureMsg.append("<br/>" + failureNum + "、账号 " + bizIcon.getIconCode()+ " 已存在");
+						failureMsg.append("<br/>" + failureNum + "、图标 " + bizIcon.getIconCode()+ " 已存在");
 					}
 				} catch (Exception e) {
 					failureNum++;
-					String msg = "<br/>" + failureNum + "、账号 " + bizIcon.getIconCode()+ " 导入失败：";
+					String msg = "<br/>" + failureNum + "、图标 " + bizIcon.getIconCode()+ " 导入失败：";
 					if (e instanceof ConstraintViolationException){
 						List<String> messageList = ValidatorUtils.extractPropertyAndMessageAsList((ConstraintViolationException)e, ": ");
 						for (String message : messageList) {

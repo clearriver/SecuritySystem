@@ -4,6 +4,7 @@
 package com.jeesite.modules.biz.web;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jeesite.common.collect.ListUtils;
+import com.jeesite.common.collect.MapUtils;
 import com.jeesite.common.config.Global;
 import com.jeesite.common.entity.Page;
 import com.jeesite.common.lang.DateUtils;
@@ -28,6 +30,9 @@ import com.jeesite.common.utils.excel.annotation.ExcelField.Type;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.biz.entity.BizIcon;
 import com.jeesite.modules.biz.service.BizIconService;
+import com.jeesite.modules.file.entity.FileUpload;
+import com.jeesite.modules.file.service.FileUploadService;
+import com.jeesite.modules.sys.entity.Office;
 import com.jeesite.modules.sys.service.ConfigService;
 
 /**
@@ -43,6 +48,8 @@ public class BizIconController extends BaseController {
 	private BizIconService bizIconService;
 	@Autowired
 	private ConfigService configService;
+	@Autowired
+	private FileUploadService fileUploadService;
 	/**
 	 * 获取数据
 	 */
@@ -175,4 +182,22 @@ public class BizIconController extends BaseController {
 		}
 	}
 
+	@RequestMapping(value = "treeData")
+	@ResponseBody
+	public List<Map<String, Object>> treeData( Boolean isAll,String bizType, String isShowCode, String ctrlPermi) {
+		List<Map<String, Object>> mapList = ListUtils.newArrayList();
+		FileUpload where = new FileUpload();
+		where.setStatus(Office.STATUS_NORMAL);
+		where.setBizType(bizType); 
+		List<FileUpload> list = fileUploadService.findList(where);
+		for (int i = 0; i < list.size(); i++) {
+			FileUpload e = list.get(i);
+			Map<String, Object> map = MapUtils.newHashMap();
+			map.put("id", e.getId());
+			map.put("pId", "0");
+			map.put("name",e.getFileName());
+			mapList.add(map);
+		}
+		return mapList;
+	}
 }

@@ -20,6 +20,7 @@ import com.jeesite.common.service.ServiceException;
 import com.jeesite.common.utils.excel.ExcelImport;
 import com.jeesite.common.validator.ValidatorUtils;
 import com.jeesite.modules.biz.dao.BizPoliceDao;
+import com.jeesite.modules.biz.entity.BizActivity;
 import com.jeesite.modules.biz.entity.BizPolice;
 import com.jeesite.modules.file.utils.FileUploadUtils;
 
@@ -28,7 +29,7 @@ import com.jeesite.modules.file.utils.FileUploadUtils;
  * @author 长江
  * @version 2019-01-12
  */
-@Service
+@Service("BizPoliceService")
 @Transactional(readOnly=true)
 public class BizPoliceService extends CrudService<BizPoliceDao, BizPolice> {
 	/**
@@ -160,19 +161,19 @@ public class BizPoliceService extends CrudService<BizPoliceDao, BizPolice> {
 						bizPolice.setIsNewRecord(true);
 						this.save(bizPolice);
 						successNum++;
-						successMsg.append("<br/>" + successNum + "、账号 " + bizPolice.getPoliceCode() + " 导入成功");
+						successMsg.append("<br/>" + successNum + "、警员 " + bizPolice.getPoliceCode() + " 导入成功");
 					}else if (isUpdateSupport){
 //						ei.getDataRowNum()
 						this.save(b);
 						successNum++;
-						successMsg.append("<br/>" + successNum + "、账号 " + bizPolice.getPoliceCode() + " 更新成功");
+						successMsg.append("<br/>" + successNum + "、警员 " + bizPolice.getPoliceCode() + " 更新成功");
 					} else {
 						failureNum++;
-						failureMsg.append("<br/>" + failureNum + "、账号 " + bizPolice.getPoliceCode()+ " 已存在");
+						failureMsg.append("<br/>" + failureNum + "、警员 " + bizPolice.getPoliceCode()+ " 已存在");
 					}
 				} catch (Exception e) {
 					failureNum++;
-					String msg = "<br/>" + failureNum + "、账号 " + bizPolice.getPoliceCode()+ " 导入失败：";
+					String msg = "<br/>" + failureNum + "、警员 " + bizPolice.getPoliceCode()+ " 导入失败：";
 					if (e instanceof ConstraintViolationException){
 						List<String> messageList = ValidatorUtils.extractPropertyAndMessageAsList((ConstraintViolationException)e, ": ");
 						for (String message : messageList) {
@@ -197,5 +198,11 @@ public class BizPoliceService extends CrudService<BizPoliceDao, BizPolice> {
 		}
 		return successMsg.toString();
 	}
-
+	/**
+	 * 添加数据权限过滤条件
+	 */
+	@Override
+	public void addDataScopeFilter(BizPolice bizPolice, String ctrlPermi) {
+		bizPolice.getSqlMap().getDataScope().addFilter("dsf", "BizPolice", "a.police_code", ctrlPermi);
+	}
 }
